@@ -8,6 +8,11 @@ use Zend\Console\Adapter\AdapterInterface;
 
 class Module implements ConfigProviderInterface, AutoloaderProviderInterface, ConsoleUsageProviderInterface
 {
+    /**
+     *
+     * @param AdapterInterface $console
+     * @return multitype:string
+     */
     public function getConsoleUsage(AdapterInterface $console)
     {
         return array(
