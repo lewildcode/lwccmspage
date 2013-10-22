@@ -1,0 +1,46 @@
+<?php $this->headTitle($page->getTitle()); ?>
+<?php $this->headMeta($page->getSummary(), 'description'); ?>
+
+<?php
+$bc = $this->navigation('cms_tree');
+$this->placeholder('bodyClass')->set('cmspage-' . $page->getId());
+$bc->findOneBy('id', 'cmspage-' . $page->getId())->setActive(True);
+echo $this->navigation('cms_tree')->breadcrumbs();
+?>
+
+<article>
+    <hgroup>
+        <h1><?php echo $this->escapeHtml($page->getTitle()); ?></h1>
+        <h2><?php echo $this->escapeHtml($page->getSubtitle()); ?></h2>
+    </hgroup>
+    <p class="summary"><?php echo $this->escapeHtml($page->getSummary()); ?></p>
+
+    <?php foreach($page->getContentRows() as $row) : ?>
+        <?php if(!$row->hasContents()) : ?>
+            <?php continue; ?>
+        <?php endif; ?>
+
+        <div class="row">
+            <?php foreach($row->getContents() as $content) : ?>
+                <?php if(!$content->getVisible()) : ?>
+                    <?php continue; ?>
+                <?php endif; ?>
+                <?php echo $this->contentRenderer($content); ?>
+            <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+</article>
+
+<?php $this->placeholder('demoSubnav')->captureStart(); ?>
+    <section>
+        <h3>Unterseiten (Demo)</h3>
+        <div class="row">
+            <div class="12u">
+                <?php echo $this->navigation('cms_tree')
+                    ->menu()
+                    ->setOnlyActiveBranch(true)
+                    ->setRenderParents(false) ?>
+            </div>
+        </div>
+    </section>
+<?php $this->placeholder('demoSubnav')->captureEnd(); ?>

@@ -1,0 +1,22 @@
+admin / index
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <th>Titel</th>
+            <th>Aktionen</th>
+        </tr>
+    </thead>
+    <?php foreach($pages as $page) : ?>
+        <tr>
+            <td><?php echo $page->getId();?></td>
+            <td><?php echo $page->getTitle();?></td>
+            <td>
+                <a href="<?php echo $this->url('lwccmspageadmin', array('action' => 'edit', 'id' => $page->getId())); ?>">
+                    Bearbeiten
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
