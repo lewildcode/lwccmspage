@@ -1,5 +1,5 @@
 {
-	"name" : "lwc/lwc-cms-page",
+	"name" : "lwc/lwccmspage",
 	"description" : "ZF2 module for CMS pages (nested set tree)",
 	"authors" : [{
 			"name" : "Timo Ziemann",
