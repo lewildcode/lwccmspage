@@ -5,8 +5,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 use LwcCmsPage\Service\PageService;
 use LwcCmsPage\Entity\PageEntity;
 use LwcCmsPage\Filter\UrlPath;
+use LwcCmsPage\Service\PageServiceAwareInterface;
 
-class CliController extends AbstractActionController
+class CliController extends AbstractActionController implements PageServiceAwareInterface
 {
 
     /**
@@ -16,28 +17,20 @@ class CliController extends AbstractActionController
     protected $service;
 
     /**
-     *
-     * @param PageService $service
+     * (non-PHPdoc)
+     * 
+     * @see \LwcCmsPage\Service\PageServiceAwareInterface::setPageService()
      */
-    public function __construct(PageService $service)
+    public function setPageService(PageService $pageService)
     {
-        $this->setPageService($service);
-    }
-
-    /**
-     *
-     * @param PageService $service
-     * @return \LwcCmsPage\Controller\CliController
-     */
-    public function setPageService(PageService $service)
-    {
-        $this->service = $service;
+        $this->service = $pageService;
         return $this;
     }
 
     /**
-     *
-     * @return \LwcCmsPage\Service\PageService
+     * (non-PHPdoc)
+     * 
+     * @see \LwcCmsPage\Service\PageServiceAwareInterface::getPageService()
      */
     public function getPageService()
     {
@@ -50,10 +43,10 @@ class CliController extends AbstractActionController
         $mode = (string) $this->params('unnamedGroup1', '');
         $title = trim($this->params('title'));
         $service = $this->getPageService();
-
+        
         $page = new PageEntity();
         $page->setTitle($title)->setIsVisible($visible);
-
+        
         if ($summary = $this->params('summary', false)) {
             $page->setSummary($summary);
         }
@@ -63,9 +56,9 @@ class CliController extends AbstractActionController
         } else {
             $page->setIdentifier($filter->filter($title));
         }
-
+        
         $service->insertPage($page, $this->params('id'), $mode);
-
+        
         return array();
     }
 }

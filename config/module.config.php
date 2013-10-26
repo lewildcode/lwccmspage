@@ -55,7 +55,7 @@ return array(
                         'action' => 'index'
                     )
                 )
-            ),
+            )
         )
     ),
     'service_manager' => array(
@@ -75,11 +75,13 @@ return array(
             'LwcCmsPage\Controller\Page' => 'LwcCmsPage\Controller\PageController',
             'LwcCmsPage\Controller\Admin' => 'LwcCmsPage\Controller\AdminController'
         ),
-        'factories' => array(
-            'LwcCmsPage\Controller\Cli' => function ($cm)
+        'initializers' => array(
+            'pageService' => function ($controller, $manager)
             {
-                $ps = $cm->getServiceLocator()->get('LwcCmsPage\Service\Page');
-                return new LwcCmsPage\Controller\CliController($ps);
+                if ($controller instanceof \LwcCmsPage\Service\PageServiceAwareInterface) {
+                    $service = $manager->getServiceLocator()->get('LwcCmsPage\Service\Page');
+                    $controller->setPageService($service);
+                }
             }
         )
     ),
@@ -88,7 +90,7 @@ return array(
             __DIR__ . '/../view'
         ),
         'template_map' => array(
-            'layout/sitemap' => __DIR__ . '/../view/lwc-cms-page/layout/sitemap.xml.phtml',
-         )
+            'layout/sitemap' => __DIR__ . '/../view/lwc-cms-page/layout/sitemap.xml.phtml'
+        )
     )
 );
