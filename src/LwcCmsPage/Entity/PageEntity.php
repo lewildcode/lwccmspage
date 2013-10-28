@@ -26,6 +26,12 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
      *
      * @var string
      */
+    protected $layout;
+
+    /**
+     *
+     * @var string
+     */
     protected $identifier;
 
     /**
@@ -97,15 +103,6 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     /**
      *
      * @var string
-     *      @TODO
-     *
-     *      use
-     *
-     *      constants
-     *
-     *      from
-     *
-     *      zf
      */
     protected $changefreq = 'monthly';
 
@@ -122,9 +119,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     protected $rows = array();
 
     /**
+     * (non-PHPdoc)
      *
-     * @return integer
-     *         $id
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getId()
      */
     public function getId()
     {
@@ -132,8 +129,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
+     * (non-PHPdoc)
      *
-     * @return string
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getIdentifier()
      */
     public function getIdentifier()
     {
@@ -164,8 +162,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
+     * (non-PHPdoc)
      *
-     * @return array
+     * @see \Zend\Stdlib\ArraySerializableInterface::getArrayCopy()
      */
     public function getArrayCopy()
     {
@@ -176,7 +175,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
             'isVisible' => $this->getIsVisible(),
             'visibilityStart' => $this->getVisibilityStart(),
             'visibilityEnd' => $this->getVisibilityEnd(),
-            'layout' => 'layout/demo',
+            'layout' => $this->getLayout(),
             'identifier' => $this->getIdentifier(),
             'title' => $this->getTitle(),
             'subtitle' => $this->getSubtitle(),
@@ -185,9 +184,30 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
+     * (non-PHPdoc)
      *
-     * @return integer
-     *         $lft
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getLayout()
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \LwcCmsPage\Entity\PageEntityInterface::setLayout()
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = trim($layout);
+        return $this;
+    }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getLft()
      */
     public function getLft()
     {
@@ -195,9 +215,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
+     * (non-PHPdoc)
      *
-     * @return integer
-     *         $rgt
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getRgt()
      */
     public function getRgt()
     {
@@ -217,7 +237,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
         $start = $this->getVisibilityStart();
         $end = $this->getVisibilityEnd();
         $now = new \DateTime();
-
+        
         if (($start !== null && $start > $now) || ($end !== null && $end < $now)) {
             return false;
         }
@@ -225,9 +245,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
+     * (non-PHPdoc)
      *
-     * @return string
-     *         $title
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getTitle()
      */
     public function getTitle()
     {
@@ -237,7 +257,6 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     /**
      *
      * @return string
-     *         $subtitle
      */
     public function getSubtitle()
     {
@@ -245,9 +264,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
+     * (non-PHPdoc)
      *
-     * @return string
-     *         $summary
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getSummary()
      */
     public function getSummary()
     {
@@ -255,10 +274,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
+     * (non-PHPdoc)
      *
-     * @return array
-     */
-    /**
+     * @see \LwcCmsPage\Entity\PageEntityInterface::getContentRows()
      */
     public function getContentRows()
     {
@@ -266,9 +284,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
-     *
-     * @param array $rows
-     * @return \LwcCmsPage\Entity\PageEntity
+     * (non-PHPdoc)
+     * 
+     * @see \LwcCmsPage\Entity\PageEntityInterface::setContentRows()
      */
     public function setContentRows(array $rows)
     {
@@ -280,9 +298,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
     }
 
     /**
-     *
-     * @param RowEntityInterface $row
-     * @return \LwcCmsPage\Entity\PageEntity
+     * (non-PHPdoc)
+     * 
+     * @see \LwcCmsPage\Entity\PageEntityInterface::addContentRow()
      */
     public function addContentRow(RowEntityInterface $row)
     {
@@ -292,7 +310,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      * (non-PHPdoc)
-     *
+     * 
      * @see \LwcCmsPage\Entity\PageEntityInterface::setId()
      */
     public function setId($id)
@@ -325,7 +343,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      *
-     * @param boolean $isVisible
+     * @param boolean $isVisible            
      * @return \LwcCmsPage\Entity\PageEntity
      */
     public function setIsVisible($isVisible)
@@ -347,7 +365,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      *
-     * @param string $subtitle
+     * @param string $subtitle            
      * @return \LwcCmsPage\Entity\PageEntity
      */
     public function setSubtitle($subtitle = null)
@@ -381,7 +399,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      *
-     * @param HeadScript $helper
+     * @param HeadScript $helper            
      * @return \LwcCmsPage\Entity\PageEntity
      */
     public function setHeadScript(HeadScript $helper)
@@ -404,7 +422,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      *
-     * @param HeadLink $helper
+     * @param HeadLink $helper            
      * @return \LwcCmsPage\Entity\PageEntity
      */
     public function setHeadLink(HeadLink $helper)
@@ -427,7 +445,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      *
-     * @param InlineScript $inlineScript
+     * @param InlineScript $inlineScript            
      * @return \LwcCmsPage\Entity\PageEntity
      */
     public function setInlineScript(InlineScript $inlineScript)
@@ -458,7 +476,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      *
-     * @param string|\DateTime $visibilityStart
+     * @param string|\DateTime $visibilityStart            
      * @return \LwcCmsPage\Entity\PageEntity
      */
     public function setVisibilityStart($visibilityStart)
@@ -472,7 +490,7 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
 
     /**
      *
-     * @param string|\DateTime $visibilityEnd
+     * @param string|\DateTime $visibilityEnd            
      * @return \LwcCmsPage\Entity\PageEntity
      */
     public function setVisibilityEnd($visibilityEnd)

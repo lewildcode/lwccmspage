@@ -12,7 +12,7 @@ interface PageEntityInterface
 
     /**
      *
-     * @param integer $id
+     * @param integer $id            
      */
     public function setId($id);
 
@@ -24,7 +24,7 @@ interface PageEntityInterface
 
     /**
      *
-     * @param integer $lft
+     * @param integer $lft            
      */
     public function setLft($lft);
 
@@ -36,9 +36,21 @@ interface PageEntityInterface
 
     /**
      *
-     * @param integer $rgt
+     * @param integer $rgt            
      */
     public function setRgt($rgt);
+
+    /**
+     *
+     * @return string
+     */
+    public function getLayout();
+
+    /**
+     *
+     * @param string $layout            
+     */
+    public function setLayout($layout);
 
     /**
      *
@@ -48,7 +60,7 @@ interface PageEntityInterface
 
     /**
      *
-     * @param string $identifier
+     * @param string $identifier            
      */
     public function setIdentifier($identifier);
 
@@ -60,13 +72,13 @@ interface PageEntityInterface
 
     /**
      *
-     * @param string $title
+     * @param string $title            
      */
     public function setTitle($title);
 
     /**
      *
-     * @param string $summary
+     * @param string $summary            
      */
     public function setSummary($summary);
 
@@ -84,13 +96,13 @@ interface PageEntityInterface
 
     /**
      *
-     * @param array $rows
+     * @param array $rows            
      */
     public function setContentRows(array $rows);
 
     /**
      *
-     * @param RowEntityInterface $row
+     * @param RowEntityInterface $row            
      */
     public function addContentRow(RowEntityInterface $row);
 
@@ -108,7 +120,7 @@ interface PageEntityInterface
 
     /**
      *
-     * @param integer $depth
+     * @param integer $depth            
      */
     public function setDepth($depth);
 
@@ -120,7 +132,7 @@ interface PageEntityInterface
 
     /**
      *
-     * @param string $freq
+     * @param string $freq            
      */
     public function setChangefreq($freq);
 
@@ -132,7 +144,7 @@ interface PageEntityInterface
 
     /**
      *
-     * @param float $prio
-    */
+     * @param float $prio            
+     */
     public function setPriority($prio);
 }

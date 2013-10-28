@@ -73,7 +73,8 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'LwcCmsPage\Controller\Page' => 'LwcCmsPage\Controller\PageController',
-            'LwcCmsPage\Controller\Admin' => 'LwcCmsPage\Controller\AdminController'
+            'LwcCmsPage\Controller\Admin' => 'LwcCmsPage\Controller\AdminController',
+            'LwcCmsPage\Controller\Cli' => 'LwcCmsPage\Controller\CliController'
         ),
         'initializers' => array(
             'pageService' => function ($controller, $manager)
