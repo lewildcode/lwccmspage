@@ -17,12 +17,6 @@ class PageForm extends Form
         $visible = new Checkbox('isVisible');
         $visible->setLabel('lwccmspage.visible');
 
-        $visibilityStart = new DateTime('visibilityStart');
-        $visibilityStart->setLabel('lwccmspage.visibility_start');
-
-        $visibilityEnd = new DateTime('visibilityEnd');
-        $visibilityEnd->setLabel('lwccmspage.visibility_end');
-
         $title = new Text('title');
         $title->setLabel('lwccmspage.title');
 
@@ -45,8 +39,6 @@ class PageForm extends Form
         $submit->setValue('lwccmspage.submit');
 
         $this->add($visible);
-        $this->add($visibilityStart);
-        $this->add($visibilityEnd);
         $this->add($title);
         $this->add($subtitle);
         $this->add($summary);

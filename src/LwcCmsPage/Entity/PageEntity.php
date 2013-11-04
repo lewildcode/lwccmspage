@@ -145,7 +145,10 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
      */
     public function setIdentifier($identifier)
     {
-        $this->identifier = trim($identifier);
+        if(trim($identifier) === '') {
+            $identifier = null;
+        }
+        $this->identifier = $identifier;
         return $this;
     }
 
@@ -179,7 +182,9 @@ class PageEntity implements ArraySerializableInterface, PageEntityInterface
             'identifier' => $this->getIdentifier(),
             'title' => $this->getTitle(),
             'subtitle' => $this->getSubtitle(),
-            'summary' => $this->getSummary()
+            'summary' => $this->getSummary(),
+            'changefreq' => $this->getChangefreq(),
+            'priority' => $this->getPriority()
         );
     }
 

@@ -65,6 +65,14 @@ class PageService
             ->select('id = ' . (int) $id)
             ->current();
     }
+    
+    public function savePage(PageEntity $page)
+    {
+        if($page->getId()) {
+            $data = $page->getArrayCopy();
+            $this->getTable()->update($data, 'id = ' . (int) $page->getId());
+        }
+    }
 
     /**
      *
