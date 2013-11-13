@@ -46,13 +46,17 @@ return array(
                     )
                 )
             ),
-            'lwccmspageadmin' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route' => '/pages[/:action][/:id]',
-                    'defaults' => array(
-                        'controller' => 'LwcCmsPage\Controller\Admin',
-                        'action' => 'index'
+            'zfcadmin' => array(
+                'child_routes' => array(
+                    'lwcpages' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/pages[/:action][/:id]',
+                            'defaults' => array(
+                                'controller' => 'LwcCmsPage\Controller\Admin',
+                                'action' => 'index'
+                            )
+                        )
                     )
                 )
             )
@@ -84,6 +88,15 @@ return array(
                     $controller->setPageService($service);
                 }
             }
+        )
+    ),
+    'navigation' => array(
+        'admin' => array(
+            'pages' => array(
+                'type' => 'mvc',
+                'route' => 'zfcadmin/lwcpages',
+                'label' => 'Pages'
+            )
         )
     ),
     'view_manager' => array(

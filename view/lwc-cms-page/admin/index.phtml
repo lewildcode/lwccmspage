@@ -7,14 +7,13 @@
         </tr>
     </thead>
     <?php foreach($pages as $page) : ?>
+        <?php $url = $this->url('zfcadmin/lwcpages', array(
+            'action' => 'edit', 'id' => $page->getId()
+        )); ?>
         <tr>
             <td><?php echo $page->getId();?></td>
             <td><?php echo $page->getTitle();?></td>
-            <td>
-                <a href="<?php echo $this->url('lwccmspageadmin', array('action' => 'edit', 'id' => $page->getId())); ?>">
-                    Bearbeiten
-                </a>
-            </td>
+            <td><a href="<?php echo $url; ?>">Bearbeiten</a></td>
         </tr>
     <?php endforeach; ?>
 </table>
