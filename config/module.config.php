@@ -1,6 +1,17 @@
 <?php
-$constraint = '[a-zA-Z][a-zA-Z0-9_-]*';
+$settings = array(
+    // sql table name of the pages
+    'pagetable' => 'cms_page',
+    
+    // sql table name of rows of contents per page
+    'rowtable' => 'cms_row',
+    
+    // allowed page url letters
+    'url_tree_constraint' => '[a-zA-Z][a-zA-Z0-9_-]*',
+);
+
 return array(
+    'lwccmspage' => $settings,
     'console' => array(
         'router' => array(
             'routes' => array(
@@ -38,11 +49,11 @@ return array(
                         'action' => 'view'
                     ),
                     'constraints' => array(
-                        'lvl1' => $constraint,
-                        'lvl2' => $constraint,
-                        'lvl3' => $constraint,
-                        'lvl4' => $constraint,
-                        'lvl5' => $constraint
+                        'lvl1' => $settings['url_tree_constraint'],
+                        'lvl2' => $settings['url_tree_constraint'],
+                        'lvl3' => $settings['url_tree_constraint'],
+                        'lvl4' => $settings['url_tree_constraint'],
+                        'lvl5' => $settings['url_tree_constraint']
                     )
                 )
             ),
