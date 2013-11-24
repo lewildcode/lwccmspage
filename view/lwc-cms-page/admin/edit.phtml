@@ -1,20 +1,28 @@
 <?php $this->headtitle('Edit page'); ?>
+<?php $saveUrl = $this->url('zfcadmin/lwcpages', array(
+    'action' => 'save',
+    'id' => $page->getId()
+)); ?>
 
-<style>
-label {
-    display: block;
-    margin: 0 0 1em 0;
-}
-label span {
-    display: block;
-}
-label span:after {
-    content: ':';
-}
-</style>
-<?php echo $this->form()->openTag($form); ?>
+<?php if($msgs = $this->flashmessenger()->getMessages()) : ?>
+    <div class="alert alert-info">
+        <ul>
+            <?php foreach($msgs as $msg) : ?>
+                <li><?php echo $this->escapehtml($msg); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
 
-    <?php foreach($form as $element) : ?>
-        <?php echo $this->formrow($element); ?>
-    <?php endforeach; ?>
-<?php echo $this->form()->closeTag($form); ?>
+
+<h4 class="clearfix">
+    Edit <b><?php echo $this->escapehtml($page->getTitle()); ?></b>
+    <div class="pull-right btn-group btn-group-sm">
+        <?php if($id = $page->getId()) : ?>
+            <a class="btn btn-default" target="_blank" href="<?php echo $this->pageTree()->getPageUrlById($id); ?>">View</a>
+        <?php endif; ?>
+        <a class="btn btn-primary" href="<?php echo $saveUrl; ?>">Save</a>
+    </div>
+</h4>
+<?php $form->setAttribute('action', $this->url('zfcadmin/lwcpages', array('action' => 'edit'))); ?>
+<?php echo $this->bootstrapForm($form); ?>

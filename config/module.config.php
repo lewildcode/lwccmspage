@@ -1,5 +1,21 @@
 <?php
 $settings = array(
+    // enable for maintaining a dynamic layout switch per page
+    'layout_switch' => true,
+    
+    // allow adding layouts via config. key = template name, value = label
+    'layouts' => array(
+        'layout/demo' => 'Demo Layout!'
+    ),
+    
+    // define a valid template / view model for cms pages (in case the feature
+    // is en/disabled in the progress of the project
+    'default_layout' => 'layout/demo',
+    
+    // whether or not a subtitle (= h2) should be used in the frontend
+    // and maintained in the CMS!
+    'subtitles' => true,
+    
     // sql table name of the pages
     'pagetable' => 'cms_page',
     
@@ -82,6 +98,7 @@ return array(
             'LwcCmsPage\Table\Row' => 'LwcCmsPage\Table\RowTableFactory',
             'LwcCmsPage\Service\Page' => 'LwcCmsPage\Service\PageServiceFactory',
             'LwcCmsPage\Service\Row' => 'LwcCmsPage\Service\RowServiceFactory',
+            'LwcCmsPage\Form\Page' => 'LwcCmsPage\Form\PageFormFactory',
             'cms_tree' => 'LwcCmsPage\Navigation\Service\CmsTreeNavigationFactory'
         )
     ),
@@ -117,5 +134,10 @@ return array(
         'template_map' => array(
             'layout/sitemap' => __DIR__ . '/../view/lwc-cms-page/layout/sitemap.xml.phtml'
         )
-    )
+    ),
+    'view_helpers' => array(
+        'factories' => array(
+            'pageTree' => 'LwcCmsPage\View\Helper\PageTreeFactory'
+        )
+    ),
 );

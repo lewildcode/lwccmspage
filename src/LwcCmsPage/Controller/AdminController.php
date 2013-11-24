@@ -2,10 +2,10 @@
 namespace LwcCmsPage\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use LwcCmsPage\Form\PageForm;
 use LwcCmsPage\Service\PageServiceAwareInterface;
 use LwcCmsPage\Service\PageService;
 use LwcCmsPage\Entity\PageEntity;
+use Zend\View\Model\ViewModel;
 
 class AdminController extends AbstractActionController implements PageServiceAwareInterface
 {
@@ -44,6 +44,12 @@ class AdminController extends AbstractActionController implements PageServiceAwa
                 ->select()
         );
     }
+    
+    public function treeAction()
+    {
+        $view = new ViewModel();
+        return $view->setTerminal(true);
+    }
 
     public function editAction()
     {
@@ -54,17 +60,24 @@ class AdminController extends AbstractActionController implements PageServiceAwa
         if ($id > 0) {
             $page = $service->findPageById($this->params('id'));
         }
-        $form = new PageForm();
+        $form = $this->getServiceLocator()->get('LwcCmsPage\Form\Page');
         $form->bind($page);
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $service->savePage($page);
+                $service->savePage($form->getData());
+                $this->flashmessenger()->addSuccessMessage('Page saved!');
             }
         }
-        return array(
+        
+        $view = new ViewModel();
+        $view->setVariables(array(
             'page' => $page,
             'form' => $form
-        );
+        ));
+        if($this->getRequest()->isXmlHttpRequest()) {
+            $view->setTerminal(true);
+        }
+        return $view;
     }
 }

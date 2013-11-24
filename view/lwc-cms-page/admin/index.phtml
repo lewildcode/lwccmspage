@@ -1,19 +1,119 @@
-<table class="table">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <th>Titel</th>
-            <th>Aktionen</th>
-        </tr>
-    </thead>
-    <?php foreach($pages as $page) : ?>
-        <?php $url = $this->url('zfcadmin/lwcpages', array(
-            'action' => 'edit', 'id' => $page->getId()
-        )); ?>
-        <tr>
-            <td><?php echo $page->getId();?></td>
-            <td><?php echo $page->getTitle();?></td>
-            <td><a href="<?php echo $url; ?>">Bearbeiten</a></td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<style>
+#page-tree {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 1em;
+}
+#page-tree-scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 600px;
+}
+</style>
+
+<?php $this->headscript()->captureStart(); ?>
+var LwcCmsPage = function() {
+    this.jqNode = $('#lwccmspage-ajax-edit');
+    this.dragSrc = null;
+    var me = this;
+    this.loadContent = function(url) {
+        me.setContent('loading ...');
+        $.get(url, function(response) {
+            me.setContent(response);
+        });
+    };
+    this.setDragSource = function(jqNode) {
+        me.dragSrc = jqNode;
+    };
+    this.getDragSource = function() {
+        return me.dragSrc;
+    };
+    this.setContent = function(html) {
+        me.jqNode.html(html);
+    };
+    this.getEditUrl = function() {
+        return '<?php echo $this->url('zfcadmin/lwcpages', array('action' => 'edit')); ?>';
+    }
+    this.getSaveUrl = function() {
+        return me.getEditUrl();
+    };
+    this.getTreeUrl = function() {
+        return '<?php echo $this->url('zfcadmin/lwcpages', array('action' => 'tree')); ?>';
+    };
+    this.saveData = function(data) {
+        me.setContent('saving...');
+        $.post(me.getSaveUrl(), data, function(response) {
+            me.setContent(response);
+            me.reloadTree();
+        });
+    };
+    this.reloadTree = function() {
+        var treeNode = $('#page-tree-scroll');
+        treeNode.html('load tree...');
+        $.get(me.getTreeUrl(), function(response) {
+            treeNode.html(response);
+            treeNode.find('li').attr('draggable', true);
+        });
+    };
+};
+    
+$(document).ready(function() {
+    var container = new LwcCmsPage();
+    container.reloadTree();
+    $('#lwccmspage-btn-newpage').click(function(event) {
+        event.preventDefault();
+        container.loadContent(container.getEditUrl());
+    });
+    $('#lwccmspage-btn-reloadtree').click(function(event) {
+        event.preventDefault();
+        container.reloadTree();
+    });
+    $(document).on('dragstart', '#page-tree li', function (event) {
+        event.stopPropagation();
+        var dataTransfer = event.originalEvent.dataTransfer;
+        var li = event.currentTarget;
+        
+        // instead of global
+        container.setDragSource(li);
+        
+        dataTransfer.effectAllowed = 'move';
+        dataTransfer.setData('text/html', li.outerHTML);
+    });
+    $(document).on('dragover', '#page-tree li', function(event) {
+        event.preventDefault();
+    });
+    $(document).on('drop', '#page-tree li', function(event) {
+        event.stopPropagation();
+        jQuery(event.target).after(container.getDragSource());
+    });
+    $(document).on('click', '#page-tree a', function(event) {
+        event.preventDefault();
+        var id = $(this).attr('id').split('-').pop();
+        container.loadContent(container.getEditUrl() + '/' + id);
+    });
+    $(document).on('click', '#lwccmspage-ajax-edit .btn-primary', function(event) {
+        event.preventDefault();
+        
+        container.saveData($('#lwccmspage').serialize());
+    });
+});
+<?php $this->headscript()->captureEnd(); ?>
+<h1>Pages</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4 class="clearfix">
+            Page Tree
+            <div class="pull-right btn-group btn-group-sm">
+                <button id="lwccmspage-btn-reloadtree" class="btn btn-default">Reload</button>
+                <a id="lwccmspage-btn-newpage" class="btn btn-primary" href="<?php echo $this->url('zfcadmin/lwcpages', array('action'=>'edit')); ?>">New Page</a>
+            </div>
+        </h4>
+        <div class="well" id="page-tree">
+            <div id="page-tree-scroll"></div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div id="lwccmspage-ajax-edit"></div>
+    </div>
+</div>

@@ -1,11 +1,9 @@
 <?php $this->headTitle($page->getTitle()); ?>
 <?php $this->headMeta($page->getSummary(), 'description'); ?>
-<?php $this->layout($page->getLayout()); ?>
+<?php # $this->layout($page->getLayout()); ?>
 <?php
-$bc = $this->navigation('cms_tree');
-$this->placeholder('bodyClass')->set('cmspage-' . $page->getId());
-$bc->findOneBy('id', 'cmspage-' . $page->getId())->setActive(True);
-echo $this->navigation('cms_tree')->breadcrumbs();
+$this->pageTree()->getPageById($page->getId())->setActive(true);
+echo $this->navigation($this->pageTree()->getNavigation())->breadcrumbs();
 ?>
 <hgroup>
     <h1 style="margin: .25em 0 .1em 0;"><?php echo $this->escapeHtml($page->getTitle()); ?></h1>

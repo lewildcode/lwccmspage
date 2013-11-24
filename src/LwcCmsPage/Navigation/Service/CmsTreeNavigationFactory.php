@@ -167,11 +167,15 @@ class CmsTreeNavigationFactory extends AbstractNavigationFactory implements Adap
 
             $pages = array();
             foreach ($resultSet as $row) {
+                if(!$title = $row->getSubtitle()) {
+                    $title = $row->getTitle();
+                }
                 $pages[] = AbstractPage::factory(array(
                     'id' => 'cmspage-' . $row->getId(),
                     'uri' => $row->getIdentifier(),
                     'depth' => $row->getDepth(),
                     'label' => $row->getTitle(),
+                    'title' => $title,
                     'visible' => $row->getIsVisible(),
                     'order' => $row->getLft(),
                     'changefreq' => $row->getChangefreq(),
